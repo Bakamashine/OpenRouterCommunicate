@@ -1,3 +1,5 @@
+using dotenv.net.Utilities;
+
 namespace OpenRouterCommunicate.Serilization
 {
     struct Rule
@@ -25,7 +27,7 @@ namespace OpenRouterCommunicate.Serilization
         }
 
         private List<Rule> _message = [
-            new Rule {role = "system", content = "Пиши только код. Объяснения и приветствия не нужны"}
+            new Rule {role = "system", content = EnvReader.GetStringValue("prompt")}
         ];
 
         public Prompt(string model)

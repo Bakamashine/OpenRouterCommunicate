@@ -4,16 +4,17 @@ using System.Net.Security;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Microsoft.Extensions.Options;
+using dotenv.net;
+using dotenv.net.Utilities;
 
 namespace OpenRouterCommunicate.Service
 {
     public class OpenRouterService
     {
-        private string ApiKey { set; get; } = "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";
+        private string ApiKey { set; get; }
 
         private readonly string Url = "https://openrouter.ai/api/v1/chat/completions";
         private readonly string Model = "xiaomi/mimo-v2-flash:free";
-
 
         private readonly HttpClientHandler handler = new()
         {
@@ -25,8 +26,10 @@ namespace OpenRouterCommunicate.Service
         public OpenRouterService(HttpClient client)
         {
             this.Client = client;
+            this.ApiKey = EnvReader.GetStringValue("key");
+            Console.WriteLine($"OpenRouterServiceKey: {ApiKey}");
         }
-        public async Task SendPrompt([FromBody] string message)
+        public async Task<ChatCompletionResponse?> SendPrompt([FromBody] string message)
         {
             // HttpClient client = new HttpClient(this.handler);
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, Url);
@@ -39,13 +42,12 @@ namespace OpenRouterCommunicate.Service
             new() {role = "user", content = message}
         };
             var prompt = new Prompt(this.Model) { messages = requestUser };
-            request.Content = new StringContent(JsonSerializer.Serialize(prompt), System.Text.Encoding.UTF8, "application/json");
+            request.Content = new StringContent(JsonSerializer.Serialize(prompt));
 
             var response = await Client.SendAsync(request);
             response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(result);
-            //return null;
+            ChatCompletionResponse? result = await response.Content.ReadFromJsonAsync<ChatCompletionResponse>();
+            return result;
         }
     }
 }

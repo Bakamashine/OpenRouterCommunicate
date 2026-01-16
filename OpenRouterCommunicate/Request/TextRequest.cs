@@ -5,6 +5,6 @@ namespace OpenRouterCommunicate.Request
     public class TextRequest
     {
         [Required]
-        public string text { set; get; }
+        public string text { set; get; } = null!;
     }
 }
