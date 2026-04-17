@@ -14,8 +14,8 @@ namespace OpenRouterCommunicate.Service
         private string ApiKey { set; get; }
 
         private readonly string Url = "https://openrouter.ai/api/v1/chat/completions";
-        private readonly string Model = "xiaomi/mimo-v2-flash:free";
-
+        // private readonly string Model = "xiaomi/mimo-v2-flash:free";
+        private string _model;
         private readonly HttpClientHandler handler = new()
         {
             ServerCertificateCustomValidationCallback = (sender, cert, chain, slPolicyErrors) => true
@@ -28,6 +28,7 @@ namespace OpenRouterCommunicate.Service
             this.Client = client;
             this.ApiKey = EnvReader.GetStringValue("key");
             Console.WriteLine($"OpenRouterServiceKey: {ApiKey}");
+            this._model = EnvReader.GetStringValue("model");
         }
         public async Task<ChatCompletionResponse?> SendPrompt([FromBody] string message)
         {
@@ -41,7 +42,7 @@ namespace OpenRouterCommunicate.Service
         {
             new() {role = "user", content = message}
         };
-            var prompt = new Prompt(this.Model) { messages = requestUser };
+            var prompt = new Prompt(this._model) { messages = requestUser };
             request.Content = new StringContent(JsonSerializer.Serialize(prompt));
 
             var response = await Client.SendAsync(request);
