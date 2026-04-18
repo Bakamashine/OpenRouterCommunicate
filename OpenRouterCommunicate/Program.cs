@@ -3,6 +3,7 @@ using OpenRouterCommunicate.Service;
 using OpenRouterCommunicate.Request;
 using dotenv.net;
 using OpenRouterCommunicate.Serilization;
+using System.Net.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,16 +11,24 @@ var builder = WebApplication.CreateBuilder(args);
 
 DotEnv.Load();
 
-// builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.Configure<OpenRouterService>(builder.Configuration.GetSection("OpenRouter"));
+
 builder.Services.AddHttpClient<OpenRouterService>(httpClient =>
 {
     httpClient.Timeout = TimeSpan.FromSeconds(500);
-});
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback = (sender, cert, chain, slPolicyErrors) => true,
+        SslProtocols = System.Security.Authentication.SslProtocols.Tls12 |  System.Security.Authentication.SslProtocols.Tls13,
+        CheckCertificateRevocationList = false,
+        UseProxy = false,
+        UseCookies = false
+    }
+);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,10 +51,5 @@ app.MapPost("/prompt", async (OpenRouterService service, [FromForm] TextRequest 
     return null;
 }).DisableAntiforgery();
 
-//app.UseHttpsRedirection();
-
-//app.UseAuthorization();
-
-//app.MapControllers();
 
 app.Run("http://localhost:5018");

@@ -25,27 +25,29 @@ namespace OpenRouterCommunicate.Service
         private readonly HttpClient Client;
         public OpenRouterService(HttpClient client)
         {
-            this.Client = client;
-            this.ApiKey = EnvReader.GetStringValue("key");
+            Client = client;
+            ApiKey = EnvReader.GetStringValue("key");
             Console.WriteLine($"OpenRouterServiceKey: {ApiKey}");
-            this._model = EnvReader.GetStringValue("model");
+            _model = EnvReader.GetStringValue("model");
         }
         public async Task<ChatCompletionResponse?> SendPrompt([FromBody] string message)
         {
+
             // HttpClient client = new HttpClient(this.handler);
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, Url);
-            request.Headers.Add("Accept", "application/json");
-            request.Headers.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this.ApiKey);
+            // HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, Url);
+            // request.Headers.Add("Accept", "application/json");
+            // request.Headers.Authorization =
+            //     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this.ApiKey);
 
             var requestUser = new List<Rule>
         {
             new() {role = "user", content = message}
         };
             var prompt = new Prompt(this._model) { messages = requestUser };
-            request.Content = new StringContent(JsonSerializer.Serialize(prompt));
 
-            var response = await Client.SendAsync(request);
+            var content = new StringContent(JsonSerializer.Serialize(prompt), System.Text.Encoding.UTF8, "application/json");
+            Client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", ApiKey);
+            var response = await Client.PostAsync(Url, content);
             response.EnsureSuccessStatusCode();
             ChatCompletionResponse? result = await response.Content.ReadFromJsonAsync<ChatCompletionResponse>();
             return result;
