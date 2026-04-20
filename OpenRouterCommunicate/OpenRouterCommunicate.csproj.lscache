@@ -159,10 +159,7 @@ Service/OpenRouterService.cs
   Microsoft.AspNetCore.WebUtilities.dll
   Microsoft.Extensions.Caching.Abstractions.dll
   Microsoft.Extensions.Caching.Memory.dll
-  Microsoft.Extensions.Configuration.Abstractions.dll
-  Microsoft.Extensions.Configuration.Binder.dll
   Microsoft.Extensions.Configuration.CommandLine.dll
-  Microsoft.Extensions.Configuration.dll
   Microsoft.Extensions.Configuration.EnvironmentVariables.dll
   Microsoft.Extensions.Configuration.FileExtensions.dll
   Microsoft.Extensions.Configuration.Ini.dll
@@ -170,10 +167,6 @@ Service/OpenRouterService.cs
   Microsoft.Extensions.Configuration.KeyPerFile.dll
   Microsoft.Extensions.Configuration.UserSecrets.dll
   Microsoft.Extensions.Configuration.Xml.dll
-  Microsoft.Extensions.DependencyInjection.Abstractions.dll
-  Microsoft.Extensions.DependencyInjection.dll
-  Microsoft.Extensions.Diagnostics.Abstractions.dll
-  Microsoft.Extensions.Diagnostics.dll
   Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions.dll
   Microsoft.Extensions.Diagnostics.HealthChecks.dll
   Microsoft.Extensions.Features.dll
@@ -184,24 +177,18 @@ Service/OpenRouterService.cs
   Microsoft.Extensions.FileSystemGlobbing.dll
   Microsoft.Extensions.Hosting.Abstractions.dll
   Microsoft.Extensions.Hosting.dll
-  Microsoft.Extensions.Http.dll
   Microsoft.Extensions.Identity.Core.dll
   Microsoft.Extensions.Identity.Stores.dll
   Microsoft.Extensions.Localization.Abstractions.dll
   Microsoft.Extensions.Localization.dll
-  Microsoft.Extensions.Logging.Abstractions.dll
   Microsoft.Extensions.Logging.Configuration.dll
   Microsoft.Extensions.Logging.Console.dll
   Microsoft.Extensions.Logging.Debug.dll
-  Microsoft.Extensions.Logging.dll
   Microsoft.Extensions.Logging.EventLog.dll
   Microsoft.Extensions.Logging.EventSource.dll
   Microsoft.Extensions.Logging.TraceSource.dll
   Microsoft.Extensions.ObjectPool.dll
-  Microsoft.Extensions.Options.ConfigurationExtensions.dll
   Microsoft.Extensions.Options.DataAnnotations.dll
-  Microsoft.Extensions.Options.dll
-  Microsoft.Extensions.Primitives.dll
   Microsoft.Extensions.WebEncoders.dll
   Microsoft.JSInterop.dll
   Microsoft.Net.Http.Headers.dll
@@ -209,6 +196,20 @@ Service/OpenRouterService.cs
   System.IO.Pipelines.dll
   System.Security.Cryptography.Xml.dll
   System.Threading.RateLimiting.dll
+ microsoft.extensions.configuration.abstractions/10.0.6/lib/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll
+ microsoft.extensions.configuration.binder/10.0.6/lib/net8.0/Microsoft.Extensions.Configuration.Binder.dll
+ microsoft.extensions.configuration/10.0.6/lib/net8.0/Microsoft.Extensions.Configuration.dll
+ microsoft.extensions.dependencyinjection.abstractions/10.0.6/lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+ microsoft.extensions.dependencyinjection/10.0.6/lib/net8.0/Microsoft.Extensions.DependencyInjection.dll
+ microsoft.extensions.diagnostics.abstractions/10.0.6/lib/net8.0/Microsoft.Extensions.Diagnostics.Abstractions.dll
+ microsoft.extensions.diagnostics/10.0.6/lib/net8.0/Microsoft.Extensions.Diagnostics.dll
+ microsoft.extensions.http.polly/10.0.6/lib/netstandard2.0/Microsoft.Extensions.Http.Polly.dll
+ microsoft.extensions.http/10.0.6/lib/net8.0/Microsoft.Extensions.Http.dll
+ microsoft.extensions.logging.abstractions/10.0.6/lib/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+ microsoft.extensions.logging/10.0.6/lib/net8.0/Microsoft.Extensions.Logging.dll
+ microsoft.extensions.options.configurationextensions/10.0.6/lib/net8.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll
+ microsoft.extensions.options/10.0.6/lib/net8.0/Microsoft.Extensions.Options.dll
+ microsoft.extensions.primitives/10.0.6/lib/net8.0/Microsoft.Extensions.Primitives.dll
  microsoft.netcore.app.ref/8.0.25/ref/net8.0/
   Microsoft.CSharp.dll
   Microsoft.VisualBasic.Core.dll
@@ -238,7 +239,6 @@ Service/OpenRouterService.cs
   System.Data.dll
   System.Diagnostics.Contracts.dll
   System.Diagnostics.Debug.dll
-  System.Diagnostics.DiagnosticSource.dll
   System.Diagnostics.FileVersionInfo.dll
   System.Diagnostics.Process.dll
   System.Diagnostics.StackTrace.dll
@@ -374,9 +374,13 @@ Service/OpenRouterService.cs
   System.Xml.XPath.XDocument.dll
   WindowsBase.dll
  microsoft.openapi/2.3.0/lib/net8.0/Microsoft.OpenApi.dll
+ polly.core/8.6.6/lib/net8.0/Polly.Core.dll
+ polly.extensions.http/3.0.0/lib/netstandard2.0/Polly.Extensions.Http.dll
+ polly/8.6.6/lib/net6.0/Polly.dll
  swashbuckle.aspnetcore.swagger/10.1.0/lib/net8.0/Swashbuckle.AspNetCore.Swagger.dll
  swashbuckle.aspnetcore.swaggergen/10.1.0/lib/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
  swashbuckle.aspnetcore.swaggerui/10.1.0/lib/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+ system.diagnostics.diagnosticsource/10.0.6/lib/net8.0/System.Diagnostics.DiagnosticSource.dll
 
 [analyzerReferences]
 <DOTNET>/sdk/10.0.201/Sdks/Microsoft.NET.Sdk.Razor/source-generators/
@@ -393,16 +397,16 @@ Service/OpenRouterService.cs
  Microsoft.AspNetCore.App.Analyzers.dll
  Microsoft.AspNetCore.App.CodeFixes.dll
  Microsoft.AspNetCore.Components.Analyzers.dll
-<NUGET>/microsoft.aspnetcore.app.ref/8.0.25/analyzers/dotnet/roslyn4.4/cs/
- Microsoft.Extensions.Logging.Generators.dll
- Microsoft.Extensions.Options.SourceGeneration.dll
-<NUGET>/microsoft.netcore.app.ref/8.0.25/analyzers/dotnet/cs/
- Microsoft.Interop.ComInterfaceGenerator.dll
- Microsoft.Interop.JavaScript.JSImportGenerator.dll
- Microsoft.Interop.LibraryImportGenerator.dll
- Microsoft.Interop.SourceGeneration.dll
- System.Text.Json.SourceGeneration.dll
- System.Text.RegularExpressions.Generator.dll
+<NUGET>/
+ microsoft.extensions.logging.abstractions/10.0.6/analyzers/dotnet/roslyn4.4/cs/Microsoft.Extensions.Logging.Generators.dll
+ microsoft.extensions.options/10.0.6/analyzers/dotnet/roslyn4.4/cs/Microsoft.Extensions.Options.SourceGeneration.dll
+ microsoft.netcore.app.ref/8.0.25/analyzers/dotnet/cs/
+  Microsoft.Interop.ComInterfaceGenerator.dll
+  Microsoft.Interop.JavaScript.JSImportGenerator.dll
+  Microsoft.Interop.LibraryImportGenerator.dll
+  Microsoft.Interop.SourceGeneration.dll
+  System.Text.Json.SourceGeneration.dll
+  System.Text.RegularExpressions.Generator.dll
 
 [analyzerConfigFiles]
 <DOTNET>/sdk/10.0.201/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_8_default.globalconfig

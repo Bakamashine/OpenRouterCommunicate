@@ -30,14 +30,9 @@ namespace OpenRouterCommunicate.Service
             Console.WriteLine($"OpenRouterServiceKey: {ApiKey}");
             _model = EnvReader.GetStringValue("model");
         }
-        public async Task<ChatCompletionResponse?> SendPrompt([FromBody] string message)
+        public async Task<ChatCompletionResponse?> SendPrompt(string message)
         {
 
-            // HttpClient client = new HttpClient(this.handler);
-            // HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, Url);
-            // request.Headers.Add("Accept", "application/json");
-            // request.Headers.Authorization =
-            //     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", this.ApiKey);
 
             var requestUser = new List<Rule>
         {

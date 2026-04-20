@@ -4,6 +4,8 @@ using OpenRouterCommunicate.Request;
 using dotenv.net;
 using OpenRouterCommunicate.Serilization;
 using System.Net.Security;
+using Polly;
+using Polly.Extensions.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +30,26 @@ builder.Services.AddHttpClient<OpenRouterService>(httpClient =>
         UseProxy = false,
         UseCookies = false
     }
-);
+)
+.AddPolicyHandler(GetRetryPolicy())
+;
+
+static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+{
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .Or<HttpRequestException>(ex => 
+            ex.InnerException?.Message.Contains("No such host") == true ||
+            ex.Message.Contains("No such host"))
+        .WaitAndRetryAsync(
+            retryCount: 3,
+            sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+            onRetry: (exception, timeSpan, retryCount, context) =>
+            {
+                Console.WriteLine($"Retry {retryCount} after {timeSpan} due to: {exception.Exception.Message}");
+            });
+}
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
